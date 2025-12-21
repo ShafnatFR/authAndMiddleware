@@ -12,7 +12,7 @@ Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
 Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
 // Group Admin
-Route::prefix('admin')->middleware('auth:admin')->group(function () {
+Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/dashboard', function () {
         $products = \App\Models\Product::all();
         return view('admin.dashboard', compact('products'));
@@ -24,7 +24,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 });
 
 // Group Seller
-Route::prefix('seller')->middleware('auth:seller')->group(function () {
+Route::prefix('seller')->middleware('seller')->group(function () {
     Route::get('/dashboard', function () {
         $products = \App\Models\Product::all();
         return view('seller.dashboard', compact('products'));
@@ -37,7 +37,7 @@ Route::prefix('seller')->middleware('auth:seller')->group(function () {
 });
 
 // Group Buyer
-Route::prefix('buyer')->middleware('auth:buyer')->group(function () {
+Route::prefix('buyer')->middleware('buyer')->group(function () {
     Route::get('/dashboard', function () {
         $products = \App\Models\Product::all();
         return view('buyer.dashboard', compact('products')); 
