@@ -52,6 +52,12 @@ class ProductController extends Controller
         return redirect()->route('seller.dashboard')->with('success', 'Product updated.');
     }
 
+    public function edit($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('products.edit', compact('product'));
+    }
+
     public function destroy($id)
     {
         $product = Product::findOrFail($id);

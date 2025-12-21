@@ -14,9 +14,11 @@ Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->
 // Group Admin
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin.dashboard'); 
+        $products = \App\Models\Product::all();
+        return view('admin.dashboard', compact('products'));
     })->name('admin.dashboard');
     
+    Route::get('/products/{id}/edit', [App\Http\Controllers\ProductController::class, 'edit'])->name('products.edit.admin');
     Route::put('/products/{id}', [App\Http\Controllers\ProductController::class, 'update']); 
     Route::delete('/products/{id}', [App\Http\Controllers\ProductController::class, 'destroy']);
 });
@@ -24,18 +26,21 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 // Group Seller
 Route::prefix('seller')->middleware('auth:seller')->group(function () {
     Route::get('/dashboard', function () {
-        return view('seller.dashboard'); 
+        $products = \App\Models\Product::all();
+        return view('seller.dashboard', compact('products'));
     })->name('seller.dashboard');
     
     Route::get('/products/create', [App\Http\Controllers\ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [App\Http\Controllers\ProductController::class, 'store'])->name('products.store');
+    Route::get('/products/{id}/edit', [App\Http\Controllers\ProductController::class, 'edit'])->name('products.edit.seller');
     Route::put('/products/{id}', [App\Http\Controllers\ProductController::class, 'update']);
 });
 
 // Group Buyer
 Route::prefix('buyer')->middleware('auth:buyer')->group(function () {
     Route::get('/dashboard', function () {
-        return view('buyer.dashboard'); 
+        $products = \App\Models\Product::all();
+        return view('buyer.dashboard', compact('products')); 
     })->name('buyer.dashboard');
     
     Route::post('/cart/{productId}', [App\Http\Controllers\CartController::class, 'store'])->name('cart.add');
