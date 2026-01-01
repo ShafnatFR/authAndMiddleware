@@ -10,7 +10,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        // Assuming there's a view to list products, or return JSON for now/dashboard
+
         return view('products.index', compact('products'));
     }
 
@@ -44,7 +44,6 @@ class ProductController extends Controller
 
         $product->update($validated);
 
-        // Redirect back to dashboard depending on who is logged in
         if (request()->user('admin')) {
              return redirect()->route('admin.dashboard')->with('success', 'Product updated.');
         }
